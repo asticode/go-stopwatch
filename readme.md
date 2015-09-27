@@ -9,11 +9,11 @@ the GO programming language (http://golang.org).
 
 # Installing
 
-## Using `go get`
+## Using *go get*
 
     $ go get github.com/asticode/go-stopwatch
     
-After this command `go-stopwatch` is ready to use. Its source will be in:
+After this command *go-stopwatch* is ready to use. Its source will be in:
 
     $GOPATH/src/github.com/asticode/go-stopwatch/stopwatch
     
