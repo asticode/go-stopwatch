@@ -1,6 +1,7 @@
 # About
 
-This is a goroutine manager for the GO programming language (http://golang.org).
+This is a stopwatch manager to measure and compare time and memory consumption at different points of your code for 
+the GO programming language (http://golang.org).
 
 # Dependencies
 
