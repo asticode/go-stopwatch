@@ -11,7 +11,7 @@ the GO programming language (http://golang.org).
 
 ## Using *go get*
 
-    $ go get github.com/asticode/go-stopwatch
+    $ go get github.com/asticode/go-stopwatch/stopwatch
     
 After this command *go-stopwatch* is ready to use. Its source will be in:
 
