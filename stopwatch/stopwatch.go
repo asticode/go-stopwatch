@@ -63,15 +63,15 @@ func (oStopwatch Stopwatch) addIdToName(sName string) string {
 	return sName
 }
 
-func (oStopwatch Stopwatch) IsEnabled(oRequest *http.Request) bool {
+func (oStopwatch Stopwatch) IsEnabled(sIpAddress string, oHeader http.Header) bool {
 	// Check ip addresses
-	if len(oStopwatch.enabler.IpAddresses) > 0 && !network.ValidateIPAddress(oRequest, oStopwatch.enabler.IpAddresses) {
+	if len(oStopwatch.enabler.IpAddresses) > 0 && !network.ValidateIPAddress(sIpAddress, oStopwatch.enabler.IpAddresses) {
 		return false
 	}
 
 	// Check headers
 	for sHeaderName, sHeaderValue := range oStopwatch.enabler.Headers {
-		if oRequest.Header.Get(sHeaderName) != sHeaderValue {
+		if oHeader.Get(sHeaderName) != sHeaderValue {
 			return false
 		}
 	}
