@@ -1,64 +1,77 @@
 # About
 
-This is a stopwatch manager to measure and compare time and memory consumption at different points of your code for 
-the GO programming language (http://golang.org).
+[![godoc](http://img.shields.io/badge/godoc-reference-blue.svg?style=flat)](https://godoc.org/github.com/asticode/go-stopwatch/stopwatch)
 
-# Dependencies
+`go-stopwatch` is a multi-event stopwatch that can measure memory and time deltas between events during runtime for the GO programming language (http://golang.org).
 
-    github.com/asticode/go-toolbox
+# Install `go-stopwatch`
 
-# Installing
-
-## Using *go get*
+Run the following command:
 
     $ go get github.com/asticode/go-stopwatch/stopwatch
     
-After this command *go-stopwatch* is ready to use. Its source will be in:
-
-    $GOPATH/src/github.com/asticode/go-stopwatch/stopwatch
-    
-# Configuration
-
-Best is to use JSON configuration:
-
-    {
-        "id": "ID",
-        "enabler": {
-            "headers": [],
-            "ip_addresses": []
-        }
-    }
-    
-And decode it:
-
-    oStopWatchConfiguration = json.UnMarshall(sConfiguration)
-    
-An example of configuration would be:
-
-    {
-        "id": "my-stopwatch",
-        "enabler": {
-            "headers": {
-                "X-MyStopWatch": "1234"
-            },
-            "ip_addresses": [
-                "127.0.0.1"
-            ]
-        }
-    }
-    
-# Example
+# Examples
+## Basic example
 
     import (
         "github.com/asticode/go-stopwatch/stopwatch"
     )
+    
+    // Create the stopwatch
+    //
+    // "myproject" is the stopwatch id and is printed in event names to set them apart from children events.
+    // true is whether the stopwatch is enabled and will actually add events in its slice. This is useful when you want to add stopwatch events conditionally in your process.
+    //
+    s, e := stopwatch.NewStopwatch("myproject", true)
+    
+    // Add the first event
+    s.AddEvent("My first event", "This is my first description")
+    
+    // Sleep during 4ms
+    time.Sleep(4 * time.Millisecond)
+    
+    // Add the second event
+    s.AddEvent("My second event", "This is my second description")
+    
+    // Sleep during 10ms
+    time.Sleep(10 * time.Millisecond)
+    
+    // Add the third event
+    s.AddEvent("My third event", "This is my third description")
+    
+    // Print the results
+    fmt.Println(s.String())
+    
+This will output:
 
-    // Create stop watch.
-    oStopwatch, oErr := stopwatch.NewStopwatch(oStopWatchConfiguration)
+    Stopwatch results:
+    Id: myproject
+    Number of events: 3
+    Time start: 11 Nov 2015 17:27:51 +0000
+    Memory start: 3.804MB
     
-    // Push
-    oStopwatch.Push("Initialization", "The Stopwatch object has been created")
+    Name: myproject - My first event
+    Description: This is my first description
     
-    // Get stopwatch as json
-    aJson = oStopwatch.Json()
+    +4.161ms
+    +0.000MB
+    
+    Name: myproject - My second event
+    Description: This is my second description
+    
+    +11.261ms
+    -0.006MB
+    
+    Name: myproject - My third event
+    Description: This is my third description
+    
+## JSON example
+
+You can also retrieve the `go-stopwatch` results as a JSON instead of a string:
+
+    // Get results as a JSON-friendly struct
+    j := s.JSON()
+    
+    // Marshall JSON
+    o, e := json.Marshal(j)
     

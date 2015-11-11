@@ -1,3 +1,7 @@
+// Copyright 2015, Quentin RENARD. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 package stopwatch
 
 import (
@@ -5,28 +9,40 @@ import (
 	"time"
 )
 
-type Event struct {
+type event struct {
 	memStats    runtime.MemStats
-	datetime    time.Time
-	HeapAlloc   float64 `json:"memory-peak(MB)"`
-	Time        string  `json:"microtime(ms)"`
-	Name        string  `json:"name"`
-	Description string  `json:"description"`
-	Children    []Event `json:"children,omitempty"`
+	time        time.Time
+	name        string
+	description string
 }
 
-func (oEvent *Event) New(sName string, sDescription string) {
+func newEvent(name string, description string) *event {
+	// Create event
+	e := event{
+		name:        name,
+		description: description,
+		time:        time.Now(),
+	}
+
 	// Set memstats
-	runtime.ReadMemStats(&oEvent.memStats)
-	oEvent.HeapAlloc = float64(float64(oEvent.memStats.HeapAlloc) / float64(1000000))
+	runtime.ReadMemStats(&e.memStats)
 
-	// Set datetime
-	oEvent.datetime = time.Now()
-	oEvent.Time = oEvent.datetime.UTC().Format("15:04:05")
+	// Return
+	return &e
+}
 
-	// Set name
-	oEvent.Name = sName
+func (e event) timeInMilliseconds() float64 {
+	return convertNanosecondsToMilliseconds(e.time.Nanosecond())
+}
 
-	// Set description
-	oEvent.Description = sDescription
+func convertNanosecondsToMilliseconds(i int) float64 {
+	return float64(i) / 1000000
+}
+
+func (e event) heapAllocInMegabytes() float64 {
+	return convertBytesToMegabytes(e.memStats.HeapAlloc)
+}
+
+func convertBytesToMegabytes(i uint64) float64 {
+	return float64(i) / float64(1024*1024)
 }
