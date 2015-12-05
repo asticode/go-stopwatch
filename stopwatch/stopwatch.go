@@ -19,13 +19,13 @@ type Configuration struct {
 // Stopwatch represents a stopwatch capable of clocking events in your code and printing the results so that they can
 // be analyzed easily
 type Stopwatch interface {
-	AddEvent(name string, description string)
+	AddEvent(name string, description string) Stopwatch
 	String() string
 	JSON() JSON
 	ID() string
-	SetID(id string)
+	SetID(id string) Stopwatch
 	IsEnabled() bool
-	SetIsEnabled(isEnabled bool)
+	SetIsEnabled(isEnabled bool) Stopwatch
 }
 
 type stopwatch struct {
@@ -53,8 +53,9 @@ func (s *stopwatch) ID() string {
 }
 
 // SetID sets the stopwatch ID
-func (s *stopwatch) SetID(id string) {
+func (s *stopwatch) SetID(id string) Stopwatch {
 	s.id = id
+	return s
 }
 
 // IsEnabled returns whether the stopwatch is enabled
@@ -63,15 +64,17 @@ func (s *stopwatch) IsEnabled() bool {
 }
 
 // SetIsEnabled sets whether the stopwatch is enabled
-func (s *stopwatch) SetIsEnabled(isEnabled bool) {
+func (s *stopwatch) SetIsEnabled(isEnabled bool) Stopwatch {
 	s.isEnabled = isEnabled
+	return s
 }
 
 // AddEvent adds a new event to the stopwatch based on a name and a description
-func (s *stopwatch) AddEvent(name string, description string) {
+func (s *stopwatch) AddEvent(name string, description string) Stopwatch {
 	if s.isEnabled {
 		s.events = append(s.events, newEvent(fmt.Sprintf("%s - %s", s.id, name), description))
 	}
+	return s
 }
 
 // String prints out the results of the stopwatch in a string
