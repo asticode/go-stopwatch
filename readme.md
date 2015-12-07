@@ -18,11 +18,7 @@ Run the following command:
     )
     
     // Create the stopwatch
-    //
-    // "myproject" is the stopwatch id and is printed in event names to set them apart from children events.
-    // true is whether the stopwatch is enabled and will actually add events in its slice. This is useful when you want to add stopwatch events conditionally in your process.
-    //
-    s, e := stopwatch.NewStopwatch("myproject", true)
+    s := stopwatch.NewStopwatch("myproject").SetIsEnabled(true)
     
     // Add the first event
     s.AddEvent("My first event", "This is my first description")
@@ -40,7 +36,7 @@ Run the following command:
     s.AddEvent("My third event", "This is my third description")
     
     // Print the results
-    fmt.Println(s.String())
+    fmt.Println(s)
     
 This will output:
 

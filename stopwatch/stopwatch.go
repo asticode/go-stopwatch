@@ -34,17 +34,16 @@ type stopwatch struct {
 	events    []*event
 }
 
-// NewStopwatch creates a new Stopwatch based on its id and whether it's enabled
-func NewStopwatch(id string, isEnabled bool) (Stopwatch, error) {
+// NewStopwatch creates a new Stopwatch based on its id
+func NewStopwatch(id string) Stopwatch {
 	return &stopwatch{
 		id:        id,
-		isEnabled: isEnabled,
-	}, nil
+	}
 }
 
 // NewStopwatchFromConfiguration creates a new Stopwatch based on its configuration
-func NewStopwatchFromConfiguration(c Configuration) (Stopwatch, error) {
-	return NewStopwatch(c.ID, c.IsEnabled)
+func NewStopwatchFromConfiguration(c Configuration) Stopwatch {
+	return NewStopwatch(c.ID).SetIsEnabled(c.IsEnabled)
 }
 
 // Id returns the stopwatch ID
