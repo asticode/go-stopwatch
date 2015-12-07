@@ -14,10 +14,9 @@ func TestNewStopwatch(t *testing.T) {
 	// Initialize
 	id := "test"
 	isEnabled := true
-	s, e := NewStopwatch(id, isEnabled)
+	s := NewStopwatch(id).SetIsEnabled(true)
 
 	// Assert
-	assert.NoError(t, e)
 	assert.Equal(t, id, s.ID())
 	assert.Equal(t, isEnabled, s.IsEnabled())
 }
@@ -28,8 +27,7 @@ func TestNewStopwatchFromConfiguration(t *testing.T) {
 		ID:        "test",
 		IsEnabled: true,
 	}
-	s, e := NewStopwatchFromConfiguration(c)
-	assert.NoError(t, e)
+	s := NewStopwatchFromConfiguration(c)
 
 	// Assert
 	assert.Equal(t, c.ID, s.ID())
