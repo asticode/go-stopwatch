@@ -37,7 +37,7 @@ type stopwatch struct {
 // NewStopwatch creates a new Stopwatch based on its id
 func NewStopwatch(id string) Stopwatch {
 	return &stopwatch{
-		id:        id,
+		id: id,
 	}
 }
 
@@ -46,7 +46,7 @@ func NewStopwatchFromConfiguration(c Configuration) Stopwatch {
 	return NewStopwatch(c.ID).SetIsEnabled(c.IsEnabled)
 }
 
-// Id returns the stopwatch ID
+// ID returns the stopwatch ID
 func (s *stopwatch) ID() string {
 	return s.id
 }
