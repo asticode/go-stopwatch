@@ -23,7 +23,7 @@ func TestNewContext(t *testing.T) {
 	assert.Equal(t, nil, ctx.Value(0))
 
 	// Get stopwatch
-	sfc, ok := FromContext(ctx)
-	assert.True(t, ok)
+	sfc, e := FromContext(ctx)
+	assert.NoError(t, e)
 	assert.Equal(t, s, sfc)
 }

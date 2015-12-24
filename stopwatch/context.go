@@ -4,12 +4,20 @@
 
 package stopwatch
 
-import "golang.org/x/net/context"
+import (
+	"errors"
+
+	"golang.org/x/net/context"
+)
 
 type contextKey int
 
 const (
 	stopwatchContextKey contextKey = 0
+)
+
+var (
+	errContextInvalid = errors.New("Invalid context")
 )
 
 // NewContext adds a stopwatch to the context
@@ -18,7 +26,9 @@ func NewContext(ctx context.Context, s Stopwatch) context.Context {
 }
 
 // FromContext retrieve a stopwatch from the context
-func FromContext(ctx context.Context) (Stopwatch, bool) {
-	l, ok := ctx.Value(stopwatchContextKey).(Stopwatch)
-	return l, ok
+func FromContext(ctx context.Context) (Stopwatch, error) {
+	if l, ok := ctx.Value(stopwatchContextKey).(Stopwatch); ok {
+		return l, nil
+	}
+	return nil, errContextInvalid
 }
